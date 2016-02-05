@@ -1,0 +1,8 @@
+language: csharp
+solution: ./src/MonCF.sln
+install:
+  - nuget restore ./src/MonCF.sln
+  - nuget install NUnit.Runners -Version 2.6.4 -OutputDirectory testrunner
+script:
+  - xbuild /p:Configuration=Release ./src/MonCF.sln
+  - mono ./testrunner/NUnit.Runners.2.6.4/tools/nunit-console.exe ./src/MonCF.Test/bin/Release/MonCF.Test.dll"" 
