@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MonCF.Tests")]
+[assembly: AssemblyTitle("MonCF.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("MonCF.Tests")]
+[assembly: AssemblyProduct("MonCF.Test")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("ed9616f3-f5c8-4fe9-86ec-b23c85593f04")]
+[assembly: Guid("586e39b7-7fbe-49e9-a915-f2ab458651b6")]
 
 // Version information for an assembly consists of the following four values:
 //
