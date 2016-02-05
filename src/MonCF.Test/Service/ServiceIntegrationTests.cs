@@ -1,43 +1,24 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MonCF.Service;
-using MonCF.Tests.Stubs;
 using MonCF.Contracts.Data;
 using System.Collections.Generic;
 using Orth.Core.Utils;
+using MonCF.Test.Stubs;
+using Xunit;
 
 namespace MonCF.Tests.Service
 {
-    [TestClass]
+    
     public class ServiceIntegrationTests
     {
-        StorageLogger storageLogger;
-        StubDataStore stubDataStore;
-
-        SimpleService simpleServiceToTest;
-
-
-        [TestInitialize]
-        public void Arrange()
-        {
-            storageLogger = new StorageLogger();
-            stubDataStore = new StubDataStore();
-
-            simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            simpleServiceToTest = null;
-            storageLogger = null;
-            stubDataStore = null;
-        }
-
-        [TestMethod]
-        [TestCategory("Integration")]
+        [Fact]
         public void ServiceSaveSimple()
-        {            
+        {
+            StorageLogger storageLogger = new StorageLogger();
+            StubDataStore stubDataStore = new StubDataStore();
+
+            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+
             Guid theID = Guid.NewGuid();
 
             var simpleData = new SimpleData(theID, "test1", 1000);
@@ -46,13 +27,17 @@ namespace MonCF.Tests.Service
 
             var dataBack = simpleServiceToTest.GetSimpleData(theID);
 
-            Assert.AreEqual(simpleData, dataBack);
+            Assert.Equal(simpleData, dataBack);
         }
 
-        [TestMethod]
-        [TestCategory("Integration")]
+        [Fact]
         public void ServiceSaveComplex()
-        {          
+        {
+            StorageLogger storageLogger = new StorageLogger();
+            StubDataStore stubDataStore = new StubDataStore();
+
+            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+
             Guid theID = Guid.NewGuid();
 
             var complexData = TestUtils.GetRandomComplexData(10,50);
@@ -62,13 +47,17 @@ namespace MonCF.Tests.Service
 
             var dataBack = simpleServiceToTest.GetComplexData(theID);
 
-            Assert.AreEqual(complexData, dataBack);
+            Assert.Equal(complexData, dataBack);
         }
 
-        [TestMethod]
-        [TestCategory("Integration")]
+        [Fact]
         public void ServiceSaveBulk()
-        {            
+        {
+            StorageLogger storageLogger = new StorageLogger();
+            StubDataStore stubDataStore = new StubDataStore();
+
+            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+
             List<ComplexData> cds = new List<ComplexData>();
 
             for (int i = 0; i < 100; i++)
@@ -88,7 +77,7 @@ namespace MonCF.Tests.Service
             {
                 var retcd = simpleServiceToTest.GetComplexData(cd.Id);
 
-                Assert.AreEqual(cd, retcd);
+                Assert.Equal(cd, retcd);
             }
         }
     }

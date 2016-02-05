@@ -1,36 +1,21 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MonCF.Data;
-using MonCF.Tests.Stubs;
 using MonCF.Contracts.Data;
 using System.Collections.Generic;
+using Xunit;
+using MonCF.Test.Stubs;
 
 namespace MonCF.Tests.Data
 {
-    [TestClass]
+    
     public class DataIntegrationTests
     {
-        StorageLogger logger;
-        MonCFExampleDataStore dataStore;
-
-        [TestInitialize]
-        public void Arrange()
-        {
-            logger = new StorageLogger();
-            dataStore = new MonCFExampleDataStore(logger, "mongodb://localhost");
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            dataStore = null;
-            logger = null;
-        }
-
-        [TestMethod]
-        [TestCategory("Integration")]
+        [Fact]        
         public void SaveSimpleData()
-        {            
+        {
+            StorageLogger logger = new StorageLogger();
+            MonCFExampleDataStore dataStore = new MonCFExampleDataStore(logger, "mongodb://localhost");
+
             Guid theID = Guid.NewGuid();
 
             var simpleData = TestUtils.GetRandomSimpleData();
@@ -40,13 +25,15 @@ namespace MonCF.Tests.Data
 
             var dataBack = dataStore.GetSimpleData(theID);
 
-            Assert.AreEqual(simpleData, dataBack);
+            Assert.Equal(simpleData, dataBack);
         }
 
-        [TestMethod]
-        [TestCategory("Integration")]
+        [Fact]        
         public void SaveComplexData()
-        {            
+        {
+            StorageLogger logger = new StorageLogger();
+            MonCFExampleDataStore dataStore = new MonCFExampleDataStore(logger, "mongodb://localhost");
+
             Guid theID = Guid.NewGuid();
 
             var complexData = TestUtils.GetRandomComplexData();
@@ -56,13 +43,15 @@ namespace MonCF.Tests.Data
 
             var dataBack = dataStore.GetComplexData(theID);
 
-            Assert.AreEqual(complexData, dataBack);
+            Assert.Equal(complexData, dataBack);
         }        
 
-        [TestMethod]
-        [TestCategory("Integration")]
+        [Fact]        
         public void SaveComplexSet()
-        {            
+        {
+            StorageLogger logger = new StorageLogger();
+            MonCFExampleDataStore dataStore = new MonCFExampleDataStore(logger, "mongodb://localhost");
+
             List<ComplexData> cds = new List<ComplexData>();
 
             for(int i =0; i < 100; i++)
@@ -78,11 +67,8 @@ namespace MonCF.Tests.Data
             {
                 var retcd = dataStore.GetComplexData(cd.Id);
 
-                Assert.AreEqual(cd, retcd);
+                Assert.Equal(cd, retcd);
             }            
         }
-
-
-
     }
 }

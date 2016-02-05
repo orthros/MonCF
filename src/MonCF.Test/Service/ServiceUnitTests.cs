@@ -1,77 +1,71 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MonCF.Contracts.Data;
+﻿using MonCF.Contracts.Data;
 using MonCF.Service;
-using MonCF.Tests.Stubs;
+using MonCF.Test.Stubs;
 using System;
 using System.Collections.Generic;
+using Xunit;
 
 namespace MonCF.Tests.Service
-{
-    [TestClass]
+{    
     public class ServiceUnitTests
-    {
-        StorageLogger storageLogger;
-        StubDataStore stubDataStore;
-
-        /// <summary>
-        /// This is what we're testing!
-        /// </summary>
-        SimpleService simpleServiceToTest;
-
-        [TestInitialize]
-        public void Arrange()
-        {
-            storageLogger = new StorageLogger();
-            stubDataStore = new StubDataStore();
-            simpleServiceToTest = new SimpleService(storageLogger,stubDataStore);
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            simpleServiceToTest = null;
-            stubDataStore = null;
-            storageLogger = null;
-        }
-
-        [TestMethod]
-        [TestCategory("SimpleData")]
+    {        
+        [Fact]
         public void TestSaveSimpleData()
-        {            
+        {
+            StorageLogger storageLogger = new StorageLogger();
+            StubDataStore stubDataStore = new StubDataStore();
+            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+
             var simpleData = TestUtils.GetRandomSimpleData();
 
             simpleServiceToTest.SaveSimpleData(simpleData);
         }
 
-        [TestMethod]
-        [TestCategory("SimpleData")]
-        [ExpectedException(typeof(ArgumentNullException), "Simple Service should throw an exception when null saves are passed")]
+        [Fact]
         public void TestNullSaveSimpleData()
         {
-            simpleServiceToTest.SaveSimpleData(null);
+            StorageLogger storageLogger = new StorageLogger();
+            StubDataStore stubDataStore = new StubDataStore();
+            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+
+            Assert.Throws(typeof(ArgumentNullException), () =>
+            {
+                simpleServiceToTest.SaveSimpleData(null);
+            });
         }
 
-        [TestMethod]
-        [TestCategory("ComplexData")]
+        [Fact]
         public void TestSaveComplexData()
         {
+            StorageLogger storageLogger = new StorageLogger();
+            StubDataStore stubDataStore = new StubDataStore();
+            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+
             var complexData = TestUtils.GetRandomComplexData();
 
             simpleServiceToTest.SaveComplexData(complexData);
         }
 
-        [TestMethod]
-        [TestCategory("ComplexData")]
-        [ExpectedException(typeof(ArgumentNullException), "Simple Service should throw an exception when null saves are passed")]
+        [Fact]
         public void TestNullSaveComplexData()
-        {            
-            simpleServiceToTest.SaveComplexData(null);
+        {
+            StorageLogger storageLogger = new StorageLogger();
+            StubDataStore stubDataStore = new StubDataStore();
+            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+
+            Assert.Throws(typeof(ArgumentNullException), () =>
+             {
+                 simpleServiceToTest.SaveComplexData(null);
+             });
         }
 
-        [TestMethod]
-        [TestCategory("ComplexData")]
+        [Fact]
         public void TestSaveComplexDataSet()
-        {            
+        {
+            StorageLogger storageLogger = new StorageLogger();
+            StubDataStore stubDataStore = new StubDataStore();
+            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+
             Random r = new Random((int)DateTime.Now.Ticks);
             var total = r.Next(1000);
 
@@ -85,22 +79,34 @@ namespace MonCF.Tests.Service
             simpleServiceToTest.BulkSaveComplexData(dataSet);
         }
 
-        [TestMethod]
-        [TestCategory("ComplexData")]
-        [ExpectedException(typeof(ArgumentNullException), "Simple Service should throw an exception when null saves are passed")]
+        [Fact]
         public void TestSaveNullComplexDataSet()
-        {            
-            simpleServiceToTest.BulkSaveComplexData(null);
+        {
+            StorageLogger storageLogger = new StorageLogger();
+            StubDataStore stubDataStore = new StubDataStore();
+            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+
+            Assert.Throws(typeof(ArgumentNullException), () =>
+             {
+                 simpleServiceToTest.BulkSaveComplexData(null);
+             });
         }
 
-        [TestMethod]
-        [TestCategory("ComplexData")]
-        [ExpectedException(typeof(ArgumentException), "Simple Service should throw an exception when null saves are passed")]
+        [Fact]
         public void TestSaveEmptyComplexDataSet()
-        {           
+        {
+            StorageLogger storageLogger = new StorageLogger();
+            StubDataStore stubDataStore = new StubDataStore();
+            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+
             List<ComplexData> dataSet = new List<ComplexData>();
 
-            simpleServiceToTest.BulkSaveComplexData(dataSet);
+            var thrownException = Assert.Throws(typeof(ArgumentException), () =>
+             {
+                 simpleServiceToTest.BulkSaveComplexData(dataSet);
+             });
+
+            Assert.IsType(typeof(ArgumentException), thrownException);
         }
 
 
