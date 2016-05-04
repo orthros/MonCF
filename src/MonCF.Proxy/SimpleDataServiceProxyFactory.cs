@@ -1,24 +1,24 @@
 ﻿using ExtCF.ContractExtensions.Factory;
+using log4net;
 using MonCF.Contracts.Services;
-using Orth.Core.Logs;
+
 
 namespace MonCF.Proxy
 {
     public class SimpleDataServiceProxyFactory
     {
-        protected ILog Log { get; private set; }
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(SimpleDataServiceProxyFactory));
 
         protected IContractExtensionFactory ContractExtensionFactory { get; private set; }
 
-        public SimpleDataServiceProxyFactory(ILog log, IContractExtensionFactory factory)
-        {
-            this.Log = log;
+        public SimpleDataServiceProxyFactory(IContractExtensionFactory factory)
+        {            
             this.ContractExtensionFactory = factory;
         }
 
         public ISimpleDataService GenerateProxy()
         {
-            SimpleDataServiceProxy proxy = new SimpleDataServiceProxy(this.Log);
+            SimpleDataServiceProxy proxy = new SimpleDataServiceProxy();
             this.ContractExtensionFactory.ApplyContractExtensions(proxy.Endpoint);
             return proxy;
         }

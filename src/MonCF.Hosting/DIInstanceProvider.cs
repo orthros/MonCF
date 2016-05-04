@@ -1,6 +1,6 @@
-﻿using MonCF.Data;
+﻿using log4net;
+using MonCF.Data;
 using MonCF.Service;
-using Orth.Core.Logs;
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
@@ -12,23 +12,17 @@ namespace MonCF.Hosting
     public class DIInstanceProvider : IInstanceProvider, IContractBehavior
     {
 
-        public ILog Log { get; set; }
+        protected static readonly ILog Log = LogManager.GetLogger(typeof(DIInstanceProvider));
 
         public IMonCFDataStore DataStore { get; set; }
 
-        public DIInstanceProvider(ILog log, IMonCFDataStore dataStore)
+        public DIInstanceProvider(IMonCFDataStore dataStore)
         {
-            if (log == null)
-            {
-                throw new ArgumentNullException("log");
-            }
-
             if (dataStore == null)
             {
                 throw new ArgumentNullException("dataStore");
             }
-
-            this.Log = log;
+                        
             this.DataStore = dataStore;
         }
 
@@ -54,7 +48,7 @@ namespace MonCF.Hosting
         #region IInstanceProvider
         public object GetInstance(InstanceContext instanceContext)
         {
-            return new SimpleService(Log, DataStore);
+            return new SimpleService(DataStore);
         }
 
         public object GetInstance(InstanceContext instanceContext, Message message)

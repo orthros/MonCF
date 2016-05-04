@@ -6,15 +6,14 @@ using System.Collections.Generic;
 using Xunit;
 
 namespace MonCF.Tests.Service
-{    
+{
     public class ServiceUnitTests
-    {        
+    {
         [Fact]
         public void TestSaveSimpleData()
         {
-            StorageLogger storageLogger = new StorageLogger();
             StubDataStore stubDataStore = new StubDataStore();
-            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+            SimpleService simpleServiceToTest = new SimpleService(stubDataStore);
 
             var simpleData = TestUtils.GetRandomSimpleData();
 
@@ -24,9 +23,8 @@ namespace MonCF.Tests.Service
         [Fact]
         public void TestNullSaveSimpleData()
         {
-            StorageLogger storageLogger = new StorageLogger();
             StubDataStore stubDataStore = new StubDataStore();
-            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+            SimpleService simpleServiceToTest = new SimpleService(stubDataStore);
 
             Assert.Throws(typeof(ArgumentNullException), () =>
             {
@@ -37,9 +35,8 @@ namespace MonCF.Tests.Service
         [Fact]
         public void TestSaveComplexData()
         {
-            StorageLogger storageLogger = new StorageLogger();
             StubDataStore stubDataStore = new StubDataStore();
-            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+            SimpleService simpleServiceToTest = new SimpleService(stubDataStore);
 
             var complexData = TestUtils.GetRandomComplexData();
 
@@ -49,9 +46,8 @@ namespace MonCF.Tests.Service
         [Fact]
         public void TestNullSaveComplexData()
         {
-            StorageLogger storageLogger = new StorageLogger();
             StubDataStore stubDataStore = new StubDataStore();
-            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+            SimpleService simpleServiceToTest = new SimpleService(stubDataStore);
 
             Assert.Throws(typeof(ArgumentNullException), () =>
              {
@@ -62,16 +58,15 @@ namespace MonCF.Tests.Service
         [Fact]
         public void TestSaveComplexDataSet()
         {
-            StorageLogger storageLogger = new StorageLogger();
             StubDataStore stubDataStore = new StubDataStore();
-            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+            SimpleService simpleServiceToTest = new SimpleService(stubDataStore);
 
             Random r = new Random((int)DateTime.Now.Ticks);
             var total = r.Next(1000);
 
             List<ComplexData> dataSet = new List<ComplexData>(total);
 
-            for(int i =0; i < total; i++)
+            for (int i = 0; i < total; i++)
             {
                 dataSet.Add(TestUtils.GetRandomComplexData());
             }
@@ -82,9 +77,8 @@ namespace MonCF.Tests.Service
         [Fact]
         public void TestSaveNullComplexDataSet()
         {
-            StorageLogger storageLogger = new StorageLogger();
             StubDataStore stubDataStore = new StubDataStore();
-            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+            SimpleService simpleServiceToTest = new SimpleService(stubDataStore);
 
             Assert.Throws(typeof(ArgumentNullException), () =>
              {
@@ -95,9 +89,8 @@ namespace MonCF.Tests.Service
         [Fact]
         public void TestSaveEmptyComplexDataSet()
         {
-            StorageLogger storageLogger = new StorageLogger();
             StubDataStore stubDataStore = new StubDataStore();
-            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+            SimpleService simpleServiceToTest = new SimpleService(stubDataStore);
 
             List<ComplexData> dataSet = new List<ComplexData>();
 
@@ -108,8 +101,5 @@ namespace MonCF.Tests.Service
 
             Assert.IsType(typeof(ArgumentException), thrownException);
         }
-
-
-
     }
 }

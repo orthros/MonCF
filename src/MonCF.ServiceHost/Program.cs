@@ -12,20 +12,21 @@ using System.ServiceModel.Dispatcher;
 using System.ServiceModel.Description;
 using System.ServiceModel.Channels;
 using MonCF.Hosting;
-using Orth.Core.Logs;
+using log4net;
 
 namespace MonCF.SimpleServiceHost
 {
     class Program
     {
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(Program));
+
         static void Main(string[] args)
         {
             ///TODO: MEF out or make in the App.config the connection string for Mongo
-            ILog logger = new ConsoleLogger();
-            IMonCFDataStore moncfDS = new MonCFExampleDataStore(logger, "mongodb://localhost");
+            IMonCFDataStore moncfDS = new MonCFExampleDataStore("mongodb://localhost");
             IContractExtensionFactory factory = new ContractExtensionFactory();
 
-            using (ServiceHost sh = new DIServiceHost(logger, moncfDS, typeof(SimpleService)))
+            using (ServiceHost sh = new DIServiceHost(moncfDS, typeof(SimpleService)))
             {
                 //TODO: Put this into the Di'service host 
 

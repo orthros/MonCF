@@ -1,7 +1,7 @@
-﻿using MonCF.Contracts.Data;
+﻿using log4net;
+using MonCF.Contracts.Data;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
-using Orth.Core.Logs;
 using System;
 using System.Collections.Generic;
 
@@ -10,17 +10,16 @@ namespace MonCF.Data
     public class MonCFExampleDataStore : IMonCFDataStore
     {
         private string ConnectionString { get; set; }
-        private ILog Logger { get; set; }
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(MonCFExampleDataStore));
 
         /// TODO: Make these variables configurable and be DI'd into this object        
         private readonly string dataBaseName = "moncfExampleDataBase";
         private readonly string simpleCollectionName = "simpleDataSets";
         private readonly string complexCollectionName = "complexDataSets";
 
-        public MonCFExampleDataStore(ILog log, string connectionString)
+        public MonCFExampleDataStore(string connectionString)
         {
-            this.ConnectionString = connectionString;
-            this.Logger = log;
+            this.ConnectionString = connectionString;            
         }
 
         public ComplexData GetComplexData(Guid dataID)

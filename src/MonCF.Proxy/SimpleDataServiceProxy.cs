@@ -1,6 +1,6 @@
-﻿using MonCF.Contracts.Data;
+﻿using log4net;
+using MonCF.Contracts.Data;
 using MonCF.Contracts.Services;
-using Orth.Core.Logs;
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
@@ -9,12 +9,11 @@ namespace MonCF.Proxy
 {
     public class SimpleDataServiceProxy : ClientBase<ISimpleDataService>, ISimpleDataService
     {
-        protected ILog Log { get; private set; }
+        protected ILog Log = LogManager.GetLogger(typeof(SimpleDataServiceProxy));
 
-        public SimpleDataServiceProxy(ILog log) 
+        public SimpleDataServiceProxy() 
             : base()
-        {
-            this.Log = log;            
+        {             
         }
 
         public void BulkSaveComplexData(List<ComplexData> saveData)

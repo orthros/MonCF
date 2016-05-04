@@ -8,16 +8,15 @@ using Xunit;
 
 namespace MonCF.Tests.Service
 {
-    
+
     public class ServiceIntegrationTests
     {
         [Fact]
         public void ServiceSaveSimple()
         {
-            StorageLogger storageLogger = new StorageLogger();
             StubDataStore stubDataStore = new StubDataStore();
 
-            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+            SimpleService simpleServiceToTest = new SimpleService(stubDataStore);
 
             Guid theID = Guid.NewGuid();
 
@@ -33,14 +32,13 @@ namespace MonCF.Tests.Service
         [Fact]
         public void ServiceSaveComplex()
         {
-            StorageLogger storageLogger = new StorageLogger();
             StubDataStore stubDataStore = new StubDataStore();
 
-            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+            SimpleService simpleServiceToTest = new SimpleService(stubDataStore);
 
             Guid theID = Guid.NewGuid();
 
-            var complexData = TestUtils.GetRandomComplexData(10,50);
+            var complexData = TestUtils.GetRandomComplexData(10, 50);
             complexData.Id = theID;
 
             simpleServiceToTest.SaveComplexData(complexData);
@@ -53,10 +51,9 @@ namespace MonCF.Tests.Service
         [Fact]
         public void ServiceSaveBulk()
         {
-            StorageLogger storageLogger = new StorageLogger();
             StubDataStore stubDataStore = new StubDataStore();
 
-            SimpleService simpleServiceToTest = new SimpleService(storageLogger, stubDataStore);
+            SimpleService simpleServiceToTest = new SimpleService(stubDataStore);
 
             List<ComplexData> cds = new List<ComplexData>();
 

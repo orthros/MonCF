@@ -1,5 +1,5 @@
-﻿using MonCF.Data;
-using Orth.Core.Logs;
+﻿using log4net;
+using MonCF.Data;
 using System;
 using System.ServiceModel;
 using System.ServiceModel.Activation;
@@ -8,19 +8,23 @@ namespace MonCF.Hosting
 {
     public class DIServiceHostFactory : ServiceHostFactory
     {
-        private ILog Logger { get; set; }
+        private static readonly ILog Logger = LogManager.GetLogger(typeof(DIServiceHostFactory));
 
         private IMonCFDataStore DataStore { get; set; }
 
-        public DIServiceHostFactory(ILog log, IMonCFDataStore datastore) : base()
+        public DIServiceHostFactory(IMonCFDataStore datastore) : base()
         {
-            this.Logger = log;
+            if(datastore == null)
+            {
+                throw new ArgumentNullException(nameof(datastore));
+            }
+
             this.DataStore = datastore;
         }
 
         protected override ServiceHost CreateServiceHost(Type serviceType, Uri[] baseAddresses)
         {
-            return new DIServiceHost(this.Logger, this.DataStore, serviceType, baseAddresses);
+            return new DIServiceHost(this.DataStore, serviceType, baseAddresses);
         }
     }
 }

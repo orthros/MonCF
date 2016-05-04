@@ -1,19 +1,21 @@
 ﻿using ExtCF.ContractExtensions.Factory;
+using log4net;
 using MonCF.Contracts.Data;
 using MonCF.Proxy;
-using Orth.Core.Logs;
 using System;
 
 namespace MonCF.Client
 {
     class Program
     {
+        private static readonly ILog logger = LogManager.GetLogger(typeof(Program));
+
         static void Main(string[] args)
         {
-            ILog logger = new ConsoleLogger();
+            
             IContractExtensionFactory contractExtensionFactory = new ContractExtensionFactory();
 
-            var proxyFactory = new SimpleDataServiceProxyFactory(logger, contractExtensionFactory);
+            var proxyFactory = new SimpleDataServiceProxyFactory(contractExtensionFactory);
 
             var proxy = proxyFactory.GenerateProxy();
 

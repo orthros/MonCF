@@ -4,6 +4,8 @@ using MonCF.Contracts.Data;
 using System.Collections.Generic;
 using Xunit;
 using MonCF.Test.Stubs;
+using log4net.Appender;
+using log4net.Config;
 
 namespace MonCF.Tests.Data
 {
@@ -13,8 +15,7 @@ namespace MonCF.Tests.Data
         [Fact]        
         public void SaveSimpleData()
         {
-            StorageLogger logger = new StorageLogger();
-            MonCFExampleDataStore dataStore = new MonCFExampleDataStore(logger, "mongodb://localhost");
+            MonCFExampleDataStore dataStore = new MonCFExampleDataStore("mongodb://localhost");
 
             Guid theID = Guid.NewGuid();
 
@@ -31,8 +32,7 @@ namespace MonCF.Tests.Data
         [Fact]        
         public void SaveComplexData()
         {
-            StorageLogger logger = new StorageLogger();
-            MonCFExampleDataStore dataStore = new MonCFExampleDataStore(logger, "mongodb://localhost");
+            MonCFExampleDataStore dataStore = new MonCFExampleDataStore("mongodb://localhost");
 
             Guid theID = Guid.NewGuid();
 
@@ -44,18 +44,17 @@ namespace MonCF.Tests.Data
             var dataBack = dataStore.GetComplexData(theID);
 
             Assert.Equal(complexData, dataBack);
-        }        
+        }
 
-        [Fact]        
+        [Fact]
         public void SaveComplexSet()
         {
-            StorageLogger logger = new StorageLogger();
-            MonCFExampleDataStore dataStore = new MonCFExampleDataStore(logger, "mongodb://localhost");
+            MonCFExampleDataStore dataStore = new MonCFExampleDataStore("mongodb://localhost");
 
             List<ComplexData> cds = new List<ComplexData>();
 
-            for(int i =0; i < 100; i++)
-            {                
+            for (int i = 0; i < 100; i++)
+            {
                 var complexData = TestUtils.GetRandomComplexData();
 
                 cds.Add(complexData);
@@ -63,12 +62,12 @@ namespace MonCF.Tests.Data
 
             dataStore.SaveComplexDataSet(cds);
 
-            foreach(var cd in cds)
+            foreach (var cd in cds)
             {
                 var retcd = dataStore.GetComplexData(cd.Id);
 
                 Assert.Equal(cd, retcd);
-            }            
+            }
         }
     }
 }

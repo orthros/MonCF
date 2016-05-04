@@ -1,7 +1,7 @@
-﻿using MonCF.Contracts.Data;
+﻿using log4net;
+using MonCF.Contracts.Data;
 using MonCF.Contracts.Services;
 using MonCF.Data;
-using Orth.Core.Logs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +10,7 @@ namespace MonCF.Service
 {
     public class SimpleService : ISimpleDataService
     {
-        protected ILog Logger
-        {
-            get;
-            private set;
-        }
+        protected static readonly ILog Logger = LogManager.GetLogger(typeof(SimpleService));
         
         protected IMonCFDataStore DataStore
         {
@@ -22,19 +18,13 @@ namespace MonCF.Service
             private set;
         }
 
-        public SimpleService(ILog logger, IMonCFDataStore dataStore)
+        public SimpleService(IMonCFDataStore dataStore)
         {
-            if(logger == null)
-            {
-                throw new ArgumentNullException("logger");
-            }
-
             if(dataStore == null)
             {
                 throw new ArgumentNullException("dataStore");
             }
-
-            this.Logger = logger;
+                        
             this.DataStore = dataStore;
         }
 
