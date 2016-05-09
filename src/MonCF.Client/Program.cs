@@ -15,14 +15,22 @@ namespace MonCF.Client
             
             IContractExtensionFactory contractExtensionFactory = new ContractExtensionFactory();
 
+            logger.Debug("Making a Proxy Factory");
+
             var proxyFactory = new SimpleDataServiceProxyFactory(contractExtensionFactory);
+
+            logger.Debug("Making a proxy");
 
             var proxy = proxyFactory.GenerateProxy();
 
+            logger.Debug("Making some simple data");
+
             var simpleData = new SimpleData();
 
+            logger.Debug("Saving some simple data");
             proxy.SaveSimpleData(simpleData);
 
+            logger.Info("Done doing work, press 'Enter' to exit");
 
             Console.ReadLine();
         }

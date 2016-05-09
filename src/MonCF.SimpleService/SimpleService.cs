@@ -37,7 +37,7 @@ namespace MonCF.Service
 
             if(!saveData.Any())
             {
-                throw new ArgumentException("Saving an Empty set of data to save", "saveData");
+                throw new ArgumentException("Saving an Empty set of data", "saveData");
             }
 
             DataStore.SaveComplexDataSet(saveData);

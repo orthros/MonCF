@@ -11,8 +11,8 @@ using MonCF.Data;
 using System.ServiceModel.Dispatcher;
 using System.ServiceModel.Description;
 using System.ServiceModel.Channels;
-using MonCF.Hosting;
 using log4net;
+using ExtCF.Hosting;
 
 namespace MonCF.SimpleServiceHost
 {
@@ -26,10 +26,10 @@ namespace MonCF.SimpleServiceHost
             IMonCFDataStore moncfDS = new MonCFExampleDataStore("mongodb://localhost");
             IContractExtensionFactory factory = new ContractExtensionFactory();
 
-            using (ServiceHost sh = new DIServiceHost(moncfDS, typeof(SimpleService)))
-            {
-                //TODO: Put this into the Di'service host 
+            Func<SimpleService> factoryConstructor = () => new SimpleService(moncfDS);
 
+            using (ServiceHost sh = new InjectionServiceHost<SimpleService>(factoryConstructor, typeof(SimpleService)))
+            {
                 #region Apply extensions
                 try
                 {
@@ -40,8 +40,8 @@ namespace MonCF.SimpleServiceHost
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine("Hit an error applying the extensions to the endpoint");
-                    Console.WriteLine(e.Message);
+                    Logger.Error("Hit an error applying the extensions to the endpoint");
+                    Logger.Fatal(e.Message);
                 }
                 #endregion                
 
@@ -50,19 +50,19 @@ namespace MonCF.SimpleServiceHost
                 {
                     sh.Open();
 
-                    Console.WriteLine("Services are running\nPress 'Enter' to stop them.");
+                    Logger.Info("Services are running\nPress 'Enter' to stop them.");
                     Console.ReadLine();
 
                     sh.Close();
                 }
                 catch (TimeoutException timeProblem)
                 {
-                    Console.WriteLine(timeProblem.Message);
+                    Logger.Fatal(timeProblem.Message);
                     Console.ReadLine();
                 }
                 catch (CommunicationException commProblem)
                 {
-                    Console.WriteLine(commProblem.Message);
+                    Logger.Fatal(commProblem.Message);
                     Console.ReadLine();
                 }
                 #endregion

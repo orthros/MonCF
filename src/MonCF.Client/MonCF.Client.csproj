@@ -40,8 +40,9 @@
       <HintPath>..\packages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
-    <Reference Include="orth.core">
-      <HintPath>..\..\lib\orth\orth.core.dll</HintPath>
+    <Reference Include="orth.core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\orth.core.1.0.0\lib\net452\orth.core.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
